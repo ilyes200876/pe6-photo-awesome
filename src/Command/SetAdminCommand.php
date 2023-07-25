@@ -48,10 +48,12 @@ class SetAdminCommand extends Command
             $this->entityManager->persist($userEntity);
             $this->entityManager->flush();
             $output->writeln("l'utilisateur " . $userEmail . " est devenu ADMIN");
+            return Command::SUCCESS;
         }else{
-            $output->writeln("l'utilisateur " . $userEmail . " n'est pas dans la bdd");     
+            $output->writeln("l'utilisateur " . $userEmail . " n'est pas dans la bdd");  
+            return Command::FAILURE;   
         }
 
-        return Command::SUCCESS;
+        
     }
 }
