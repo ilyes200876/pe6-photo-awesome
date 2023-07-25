@@ -58,10 +58,48 @@ class CategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+            $this->entityManager->persist($category);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('app_category');
 
         }
 
         return $this->render('category/new.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/delete/{id}', name: 'app_category_delete')]
+    public function delete($id): Response
+    { 
+        $categoryEntity = $this->categoryRepository->find($id);
+
+        if ($categoryEntity !== null){
+            $this->entityManager->remove($categoryEntity);
+            $this->entityManager->flush();
+        }
+        return $this->redirectToRoute('app_category');
+        
+        // return $this->render('category/delete.html.twig', [
+        //     'form' => $form->createView()
+        // ]);
+    }
+
+    #[Route('/edit/{id}', name: 'app_category_edit')]
+    public function edit($id, Request $request): Response
+    { 
+        $category = $this->categoryRepository->find($id);
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $this->entityManager->persist($category);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('app_category');
+        }
+
+
+        return $this->render('category/edit.html.twig', [
             'form' => $form->createView()
         ]);
     }
