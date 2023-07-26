@@ -1,0 +1,7 @@
+App\Entity\Category:
+  category0:
+    label: "Super Héros"
+  category1:
+    label: "Paysages"
+  category{2..50}:
+    label: "<word()>"

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+  <h1>{{ media.title }}</h1>
+  <h2>{{ media.description }}</h2>
+
+  {{ "Créer le " ~ media.createdAt|date('d/m/Y') ~ " à " ~ media.createdAt|date('H:i:s') ~ " par " ~ media.user.email }}
+
+  <ul>
+    {% for category in media.categories %}
+      <li>{{ category.label }}</li>
+    {% endfor %}
+  </ul>
+
+  {% set i = 0 %}
+  {% for comment in media.comments %}
+    {% set i = i + 1 %}
+  {% endfor %}
+
+  {{ "Nombre de commentaires : " ~ i }}
+{% endblock %}

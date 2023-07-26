@@ -1,0 +1,7 @@
+App\Entity\Comment:
+  comment{0..2000}:
+    content: "<sentence(25)>"
+    createdAt: '<dateTimeBetween("-2 years", "now")>'
+    user: "@user*"
+    media: "@media*"
+    grade: "<numberBetween(0, 10)>"

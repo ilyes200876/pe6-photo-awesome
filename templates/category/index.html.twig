@@ -4,6 +4,15 @@
 
 {% block body %}
     <h1>Liste des catégories</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.categoryTitle) }}
+        {{ form_row(form.mediaTitle) }}
+        <button type="submit">Rechercher</button>
+    {{ form_end(form) }}
+    
+    <p>En total il y a {{ categories.totalItemCount }} categories<p>
+
     <ul>
         {% for category in categories %}
             <li><a href="{{path('app_category_show', {'id': category.id}) }}">{{ category.label }}</a> 
@@ -12,4 +21,8 @@
             </li>
         {% endfor %}
     </ul>
+
+    <div class="navigation">
+        {{ knp_pagination_render(categories) }}
+    </div>
 {% endblock %}
