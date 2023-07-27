@@ -6,8 +6,10 @@ use App\Entity\Media;
 use App\Form\MediaSearchType;
 use App\Form\MediaType;
 use App\Repository\MediaRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,8 +20,9 @@ class MediaController extends AbstractController
 {
     public function __construct(
         private MediaRepository $mediaRepository,
-        private PaginatorInterface $paginator
-    )
+        private PaginatorInterface $paginator,
+        private EntityManagerInterface $entityManager
+        )
     {
 
     }
@@ -92,6 +95,8 @@ class MediaController extends AbstractController
          */
         $user = $this->getUser();
 
+        $uploadDirectory = $this->getParameter('upload_file');
+        ;
 
         // if($user === null){
         //     return $this->redirectToRoute('app_home');
@@ -106,7 +111,35 @@ class MediaController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $mediaEntity->setSlug($slug = $slugger->slug($mediaEntity->getTitle()));
+            
+            $file = $form->get('file')->getData();
+
+            if($file){
+                $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFileName = $slugger->slug($originalFileName);
+
+                $newFileName = $safeFileName . '-' . uniqid() . '.' . $file->guessExtension();
+
+                // Je bouge le fichier dans le dossier d'upload avec son nouveau nom
+                try{
+                    $file->move(
+                        $this->getParameter('upload_file'),
+                        $newFileName
+                    );
+
+                    $mediaEntity->setFilePath($newFileName);
+                }catch(FileException $e){
+
+                }
+            }
+
+            $this->entityManager->persist($mediaEntity);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('app_media');
+
+            // dd($file);
         }
+
 
         return $this->render('media/add.html.twig', [
             'formMedia' => $form->createView()
