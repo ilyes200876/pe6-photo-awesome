@@ -2,13 +2,16 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Media;
 use App\Form\MediaSearchType;
+use App\Form\MediaType;
 use App\Repository\MediaRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/admin/media')]
 class MediaController extends AbstractController
@@ -41,6 +44,11 @@ class MediaController extends AbstractController
                     ->andWhere('u.email = :email')
                 ->setParameter('email', $data['userEmail']);
             }
+            
+            if($data['mediaCreated'] !== null){
+                $qb->andWhere('m.createdAt > :createdAt')
+                ->setParameter('createdAt', $data['mediaCreated']);
+            }
         }
 
         //traitement de formulaire
@@ -70,6 +78,38 @@ class MediaController extends AbstractController
 
         return $this->render('media/show.html.twig', [
             'media' => $mediaEntity
+        ]);
+    }
+
+    #[Route('/add', name: 'app_media_add')]
+    public function add(Request $request, SluggerInterface $slugger): Response
+    {
+
+        /**
+         * récupere l'utilisateur connecté
+         * soit une entité User (si connecté)
+         * soit null si (pas connecté)
+         */
+        $user = $this->getUser();
+
+
+        // if($user === null){
+        //     return $this->redirectToRoute('app_home');
+        // }
+
+        $mediaEntity = new Media();
+        $mediaEntity->setUser($user);
+        $mediaEntity->setCreatedAt(new \DateTime());
+
+        $form = $this->createForm(MediaType::class, $mediaEntity);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $mediaEntity->setSlug($slug = $slugger->slug($mediaEntity->getTitle()));
+        }
+
+        return $this->render('media/add.html.twig', [
+            'formMedia' => $form->createView()
         ]);
     }
 

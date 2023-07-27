@@ -43,8 +43,8 @@ class CategoryController extends AbstractController
             
             if($data['mediaTitle'] !== null){
                 $qb->innerJoin('c.medias', 'm')
-                    ->andWhere('m.title = :titleMedia')
-                    ->setParameter('titleMedia', $data['mediaTitle']);
+                    ->andWhere('m.title LIKE :titleMedia')
+                    ->setParameter('titleMedia', "%" . $data['mediaTitle'] . "%");
             }
         }
         

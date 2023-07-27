@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,6 +20,12 @@ class MediaSearchType extends AbstractType
             ])
             ->add('userEmail', TextType::class, [
                 'label' => "Email du créateur",
+                'required' => false
+            ])
+            ->add('mediaCreated', DateType::class, [
+                'label' => "Date de création",
+                'widget' => 'single_text',
+                // 'format' => 'dd-MM-yyyy',
                 'required' => false
             ])
         ;
