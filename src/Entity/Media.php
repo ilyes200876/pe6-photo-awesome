@@ -41,6 +41,9 @@ class Media
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'medias')]
     private Collection $categories;
 
+    #[ORM\Column]
+    private ?int $price = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -174,6 +177,18 @@ class Media
     public function removeCategory(Category $category): static
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): static
+    {
+        $this->price = $price;
 
         return $this;
     }

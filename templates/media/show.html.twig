@@ -4,6 +4,7 @@
 
 {% block body %}
   <h1>{{ media.title }}</h1>
+  <p>prix du media est {{ media.price|euro }}</p>
   <h2>{{ media.description }}</h2>
 
   {{ "Créer le " ~ media.createdAt|date('d/m/Y') ~ " à " ~ media.createdAt|date('H:i:s') ~ " par " ~ media.user.email }}

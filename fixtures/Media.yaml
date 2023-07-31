@@ -7,3 +7,4 @@ App\Entity\Media:
     createdAt: '<dateTimeBetween("-2 years", "now")>'
     user: "@user*"
     categories: "<numberBetween(1, 10)>x @category*"
+    price: "<numberBetween(500, 20000)>"

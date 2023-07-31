@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DemandAdminController!{% endblock %}
+
+{% block body %}
+    <p>En total il y a {{ demands.totalItemCount }} demandes<p>
+
+    <ul>
+        {% for demand in demands %}
+            <li><a href="{{ path('app_demand_admin_lu', {'id': demand.id}) }}">{{ demand.email }}</a>
+                {{ demand.createdAt|date('d/m/Y') }} {{ demand.status }}
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="navigation">
+        {{ knp_pagination_render(demands) }}
+    </div>
+{% endblock %}

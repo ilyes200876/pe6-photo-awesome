@@ -3,6 +3,10 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
+<div class="imageProfile">
+    <img src="{{ asset('build/images/DanielRadcliffe.jpg') }}">
+</div>
+    
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
@@ -13,8 +17,12 @@
 
     This friendly message is coming from:
     <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/ilyes/OneDrive/Bureau/dwwmPE6/SYMFONY/photoAwesome/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
+        <li><p>Your controller at </p><code><a href="{{ 'C:/Users/ilyes/OneDrive/Bureau/dwwmPE6/SYMFONY/photoAwesome/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
         <li>Your template at <code><a href="{{ 'C:/Users/ilyes/OneDrive/Bureau/dwwmPE6/SYMFONY/photoAwesome/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
     </ul>
+</div>
+
+<div>
+    <a href ='{{path("app_demand") }}'>Envoyer votre demande</a>
 </div>
 {% endblock %}

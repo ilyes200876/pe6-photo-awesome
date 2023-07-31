@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+  <h1>La demande de {{ demand.email }}</h1>
+  <h2>Demande envoyée le {{ demand.createdAt|date('d/m/Y') }}</h2>
+
+  <h3>Le contenue de la demande :</h3>
+  {{ demand.content }}
+
+  if
+  <a href="{{ path('app_demand_admin') }}">définir comme lu</a>
+    
+{% endblock %}
