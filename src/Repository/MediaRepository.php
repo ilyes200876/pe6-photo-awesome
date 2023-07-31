@@ -27,6 +27,15 @@ class MediaRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m');
     }
 
+    public function findLastFiveMedia()
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.createdAt', 'desc')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Media[] Returns an array of Media objects
 //     */

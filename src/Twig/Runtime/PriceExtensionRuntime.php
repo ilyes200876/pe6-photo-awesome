@@ -15,6 +15,6 @@ class PriceExtensionRuntime implements RuntimeExtensionInterface
     public function euro(int $value)
     {
     $newPrice = $value / 100;
-        return number_format($newPrice,2 ,",");
+        return number_format($newPrice,2 ,",") . " €";
     }
 }

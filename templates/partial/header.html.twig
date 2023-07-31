@@ -1,4 +1,17 @@
-<div>
+<div style="display: flex; justify-content: space-between">
+{% set medias = get_last_five_media() %}
+  {% dump(medias) %}
+  <ul style="display: flex;width: 50%;justify-content: space-around;list-style: none;">
+    {% for media in medias%}
+      <li>{{ media.title }}<li>
+    {% endfor %}
+  </ul>
+
+
+
+
+
+
   {% if app.user %}
     {# je suis connecté #}
     <a href="{{ path('app_logout') }}">Se déconnecté</a>
